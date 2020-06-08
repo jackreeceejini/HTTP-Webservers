@@ -30,6 +30,10 @@ class MessageHandler(BaseHTTPRequestHandler):
         # 3. Extract the "message" field from the request data.
 
         # Send the "message" field back as the response.
+        
+        length = int(self.headers.get('Content-Length', 0))
+        data = self.rfile.read(length).decode()
+        message = parse_qs(data)["message"][0]
         self.send_response(200)
         self.send_header('Content-type', 'text/plain; charset=utf-8')
         self.end_headers()
